@@ -155,8 +155,11 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: get-tasks
+      description: Fetch all available tasks in the system
     post:
       summary: ''
       operationId: post-tasks
@@ -233,8 +236,11 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: get-users-userid-tasks
+      description: Fetch all tasks assigned to a specific user
   '/tasks/{taskid}/users':
     parameters:
       - schema:
@@ -245,8 +251,11 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: get-tasks-taskid-users
+      description: Fetch all users assigned to a specific task
   /assign-tasks:
     post:
       summary: ''
