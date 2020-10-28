@@ -1,0 +1,38 @@
+description: 'This is returned when queries are issued for summary of minutes grouped by user for a specific task '
+type: object
+properties:
+  task-name:
+    type: array
+    items:
+      required: []
+      properties: {}
+  user-name:
+    type: array
+    items:
+      required: []
+      properties: {}
+  job-title:
+    type: array
+    items:
+      required: []
+      properties: {}
+  time-spent-in_minutes:
+    type: array
+    items:
+      required: []
+      properties: {}
+required:
+  - task-name
+  - user-name
+  - job-title
+  - time-spent-in_minutes
+x-examples:
+  example-1:
+    task-name:
+      - {}
+    user-name:
+      - {}
+    job-title:
+      - {}
+    time-spent-in_minutes:
+      - {}

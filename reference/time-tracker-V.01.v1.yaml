@@ -1,0 +1,296 @@
+openapi: 3.0.0
+info:
+  title: time tracker V.01
+  version: '1.0'
+  contact:
+    name: Owen Taylor
+    url: 'http://notreal.real.com'
+    email: notreal@real.com
+  description: This API allows the user to enter and track hours spent each day on distinct tasks
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/users/{userid}':
+    parameters:
+      - schema:
+          type: string
+        name: userid
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      operationId: get-users-userid
+      description: Get specific user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                user-fname:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items:
+                    required: []
+                    properties: {}
+                user-lname:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items:
+                    required: []
+                    properties: {}
+                job-title:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items:
+                    required: []
+                    properties: {}
+              required:
+                - user-fname
+                - user-lname
+                - job-title
+            examples:
+              example-1:
+                value:
+                  user-fname:
+                    - {}
+                  user-lname:
+                    - {}
+                  job-title:
+                    - {}
+        description: Payload returned from request
+      responses:
+        '200':
+          description: OK
+  '/tasks/{taskid}':
+    parameters:
+      - schema:
+          type: string
+        name: taskid
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      operationId: get-tasks-taskid
+      description: get specific task by its id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                task-name:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items:
+                    required: []
+                    properties: {}
+                task-extra-info:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items:
+                    required: []
+                    properties: {}
+              required:
+                - task-name
+                - task-extra-info
+            examples:
+              example-1:
+                value:
+                  task-name:
+                    - {}
+                  task-extra-info:
+                    - {}
+      responses:
+        '200':
+          description: OK
+  '/sum-minutes/{taskid}':
+    parameters:
+      - schema:
+          type: string
+        name: taskid
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-sum-minutes?taskid=-taskid
+      description: Get a summary of minutes spent on a task by all users assigned to that task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                task-name:
+                  type: array
+                  items:
+                    type: object
+                user-name:
+                  type: array
+                  items:
+                    type: object
+                job-title:
+                  type: array
+                  items:
+                    type: object
+                time-spent-in_minutes:
+                  type: array
+                  items:
+                    type: object
+  /tasks:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-tasks
+    post:
+      summary: ''
+      operationId: post-tasks
+      responses:
+        '200':
+          description: OK
+      description: Create a new Task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                task-name:
+                  type: array
+                  items:
+                    required: []
+                    properties: {}
+                task-extra-info:
+                  type: array
+                  items:
+                    required: []
+                    properties: {}
+              required:
+                - task-name
+                - task-extra-info
+  /users:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-users
+    post:
+      summary: ''
+      operationId: post-users
+      responses:
+        '200':
+          description: OK
+      description: Add a User to the system
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                user-fname:
+                  type: array
+                  items:
+                    required: []
+                    properties: {}
+                user-lname:
+                  type: array
+                  items:
+                    required: []
+                    properties: {}
+                job-title:
+                  type: array
+                  items:
+                    required: []
+                    properties: {}
+              required:
+                - user-fname
+                - user-lname
+                - job-title
+  '/users/{userid}/tasks':
+    parameters:
+      - schema:
+          type: string
+        name: userid
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-users-userid-tasks
+  '/tasks/{taskid}/users':
+    parameters:
+      - schema:
+          type: string
+        name: taskid
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-tasks-taskid-users
+  /assign-tasks:
+    post:
+      summary: ''
+      operationId: post-assign-tasks
+      responses:
+        '200':
+          description: OK
+      description: 'Assign users by their id to a task by its id '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                task-id:
+                  type: array
+                  items:
+                    required: []
+                    properties: {}
+                user-id:
+                  type: array
+                  items:
+                    required: []
+                    properties: {}
+              required:
+                - task-id
+                - user-id
+            examples:
+              example-1:
+                value:
+                  task-id:
+                    - {}
+                  user-id:
+                    - {}
+        description: 'Here is the provided information necessary to assign tasks to users (taskid, userid)'
+  /time-entries:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-time-entries
+      description: 'A queryable endpoint returning time-entries either by userid, taskid, or assignmentid '
+components:
+  schemas: {}
