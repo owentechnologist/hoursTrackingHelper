@@ -8,7 +8,7 @@ info:
     email: notreal@real.com
   description: This API allows the user to enter and track hours spent each day on distinct tasks
 servers:
-  - url: api.example.com
+  - url: 'https://time-tracker.stoplight.com'
 paths:
   /users:
     get:
@@ -33,15 +33,15 @@ paths:
               schema:
                 type: string
           content:
-            application/json:    
+            application/json:
               schema:
-                $ref: "#/components/schemas/users"
+                $ref: '#/components/schemas/users'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     post:
       summary: Create a User
       operationId: createUser
@@ -55,8 +55,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-  /users/{userid}:
+                $ref: '#/components/schemas/Error'
+  '/users/{userid}':
     get:
       summary: Info for a specific User
       operationId: showUserById
@@ -68,7 +68,7 @@ paths:
           required: true
           description: The id of the User to retrieve
           schema:
-            type: integer 
+            type: integer
             format: int32
       responses:
         '200':
@@ -76,13 +76,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/user"
+                $ref: '#/components/schemas/user'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /tasks:
     get:
       summary: List all tasks
@@ -106,15 +106,15 @@ paths:
               schema:
                 type: string
           content:
-            application/json:    
+            application/json:
               schema:
-                $ref: "#/components/schemas/tasks"
+                $ref: '#/components/schemas/tasks'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     post:
       summary: Create a Task
       operationId: createTask
@@ -128,8 +128,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-  /tasks/{taskid}:
+                $ref: '#/components/schemas/Error'
+  '/tasks/{taskid}':
     get:
       summary: Info for a specific task
       operationId: showTaskById
@@ -141,7 +141,7 @@ paths:
           required: true
           description: The id of the Task to retrieve
           schema:
-            type: integer 
+            type: integer
             format: int32
       responses:
         '200':
@@ -149,13 +149,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/task"
+                $ref: '#/components/schemas/task'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /time-entries:
     get:
       summary: List all time-entries
@@ -179,15 +179,15 @@ paths:
               schema:
                 type: string
           content:
-            application/json:    
+            application/json:
               schema:
-                $ref: "#/components/schemas/time-entries"
+                $ref: '#/components/schemas/time-entries'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     post:
       summary: Create a time-entry
       operationId: createTimeEntry
@@ -201,8 +201,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-  /time-entries/{time-entry-id}:
+                $ref: '#/components/schemas/Error'
+  '/time-entries/{time-entry-id}':
     get:
       summary: Info for a specific time-entry
       operationId: showTimeEntryById
@@ -214,7 +214,7 @@ paths:
           required: true
           description: The id of the time-entry to retrieve
           schema:
-            type: integer 
+            type: integer
             format: int32
       responses:
         '200':
@@ -222,13 +222,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/time-entry"
+                $ref: '#/components/schemas/time-entry'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /task-assignments:
     get:
       summary: List all task-assignments
@@ -252,15 +252,15 @@ paths:
               schema:
                 type: string
           content:
-            application/json:    
+            application/json:
               schema:
-                $ref: "#/components/schemas/task-assignments"
+                $ref: '#/components/schemas/task-assignments'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     post:
       summary: Create a task-assignments
       operationId: createTaskAssignment
@@ -274,8 +274,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-  /task-assignments/{task-assignment-id}:
+                $ref: '#/components/schemas/Error'
+  '/task-assignments/{task-assignment-id}':
     get:
       summary: Info for a specific task-assignment
       operationId: showTaskAssignmentById
@@ -287,7 +287,7 @@ paths:
           required: true
           description: The id of the task-assignment to retrieve
           schema:
-            type: integer 
+            type: integer
             format: int32
       responses:
         '200':
@@ -295,13 +295,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/task-assignment"
+                $ref: '#/components/schemas/task-assignment'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /sum-minutes-responses:
     get:
       summary: List all summaries of minutes spent on tasks for all users
@@ -325,16 +325,16 @@ paths:
               schema:
                 type: string
           content:
-            application/json:    
+            application/json:
               schema:
-                $ref: "#/components/schemas/sum-minutes-responses"
+                $ref: '#/components/schemas/sum-minutes-responses'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-  /sum-minutes-responses/{taskid}:
+                $ref: '#/components/schemas/Error'
+  '/sum-minutes-responses/{taskid}':
     get:
       summary: Summary Info of time spent by all assigned users for a specific task
       operationId: showMinutesSpentSummedByUsersForTask
@@ -346,7 +346,7 @@ paths:
           required: true
           description: The id of the task-assignment to retrieve
           schema:
-            type: integer 
+            type: integer
             format: int32
       responses:
         '200':
@@ -354,13 +354,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/sum-minutes-response"
+                $ref: '#/components/schemas/sum-minutes-response'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     task:
@@ -379,7 +379,7 @@ components:
     tasks:
       type: array
       items:
-        $ref: "#/components/schemas/task"
+        $ref: '#/components/schemas/task'
     user:
       type: object
       required:
@@ -399,7 +399,7 @@ components:
     users:
       type: array
       items:
-        $ref: "#/components/schemas/user"
+        $ref: '#/components/schemas/user'
     task-assignment:
       type: object
       required:
@@ -418,7 +418,7 @@ components:
     task-assignments:
       type: array
       items:
-        $ref: "#/components/schemas/task-assignment"
+        $ref: '#/components/schemas/task-assignment'
     time-entry:
       type: object
       required:
@@ -437,7 +437,7 @@ components:
     time-entries:
       type: array
       items:
-        $ref: "#/components/schemas/time-entry"
+        $ref: '#/components/schemas/time-entry'
     sum-minutes-response:
       type: object
       required:
@@ -458,7 +458,7 @@ components:
     sum-minutes-responses:
       type: array
       items:
-        $ref: "#/components/schemas/sum-minutes-response"
+        $ref: '#/components/schemas/sum-minutes-response'
     Error:
       type: object
       required:
