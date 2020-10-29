@@ -8,298 +8,465 @@ info:
     email: notreal@real.com
   description: This API allows the user to enter and track hours spent each day on distinct tasks
 servers:
-  - url: 'http://localhost:3000'
+  - url: api.example.com
 paths:
-  '/users/{userid}':
-    parameters:
-      - schema:
-          type: string
-        name: userid
-        in: path
-        required: true
-    get:
-      summary: Your GET endpoint
-      tags: []
-      operationId: get-users-userid
-      description: Get specific user
-      requestBody:
-        content:
-          application/json:
-            schema:
-              description: ''
-              type: object
-              properties:
-                user-fname:
-                  type: array
-                  uniqueItems: true
-                  minItems: 1
-                  items:
-                    required: []
-                    properties: {}
-                user-lname:
-                  type: array
-                  uniqueItems: true
-                  minItems: 1
-                  items:
-                    required: []
-                    properties: {}
-                job-title:
-                  type: array
-                  uniqueItems: true
-                  minItems: 1
-                  items:
-                    required: []
-                    properties: {}
-              required:
-                - user-fname
-                - user-lname
-                - job-title
-            examples:
-              example-1:
-                value:
-                  user-fname:
-                    - {}
-                  user-lname:
-                    - {}
-                  job-title:
-                    - {}
-        description: Payload returned from request
-      responses:
-        '200':
-          description: OK
-  '/tasks/{taskid}':
-    parameters:
-      - schema:
-          type: string
-        name: taskid
-        in: path
-        required: true
-    get:
-      summary: Your GET endpoint
-      tags: []
-      operationId: get-tasks-taskid
-      description: get specific task by its id
-      requestBody:
-        content:
-          application/json:
-            schema:
-              description: ''
-              type: object
-              properties:
-                task-name:
-                  type: array
-                  uniqueItems: true
-                  minItems: 1
-                  items:
-                    required: []
-                    properties: {}
-                task-extra-info:
-                  type: array
-                  uniqueItems: true
-                  minItems: 1
-                  items:
-                    required: []
-                    properties: {}
-              required:
-                - task-name
-                - task-extra-info
-            examples:
-              example-1:
-                value:
-                  task-name:
-                    - {}
-                  task-extra-info:
-                    - {}
-      responses:
-        '200':
-          description: OK
-  '/sum-minutes/{taskid}':
-    parameters:
-      - schema:
-          type: string
-        name: taskid
-        in: path
-        required: true
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses:
-        '200':
-          description: OK
-      operationId: get-sum-minutes?taskid=-taskid
-      description: Get a summary of minutes spent on a task by all users assigned to that task
-      requestBody:
-        content:
-          application/json:
-            schema:
-              description: ''
-              type: object
-              properties:
-                task-name:
-                  type: array
-                  items:
-                    type: object
-                user-name:
-                  type: array
-                  items:
-                    type: object
-                job-title:
-                  type: array
-                  items:
-                    type: object
-                time-spent-in_minutes:
-                  type: array
-                  items:
-                    type: object
-  /tasks:
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses:
-        '200':
-          description: OK
-      operationId: get-tasks
-      description: Fetch all available tasks in the system
-    post:
-      summary: ''
-      operationId: post-tasks
-      responses:
-        '200':
-          description: OK
-      description: Create a new Task
-      requestBody:
-        content:
-          application/json:
-            schema:
-              description: ''
-              type: object
-              properties:
-                task-name:
-                  type: array
-                  items:
-                    required: []
-                    properties: {}
-                task-extra-info:
-                  type: array
-                  items:
-                    required: []
-                    properties: {}
-              required:
-                - task-name
-                - task-extra-info
   /users:
     get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
-      operationId: get-users
+      summary: List all users
+      operationId: listUsers
+      tags:
+        - users
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: A paged array of users
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/users"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     post:
-      summary: ''
-      operationId: post-users
+      summary: Create a User
+      operationId: createUser
+      tags:
+        - users
       responses:
-        '200':
-          description: OK
-      description: Add a User to the system
-      requestBody:
-        content:
-          application/json:
-            schema:
-              description: ''
-              type: object
-              properties:
-                user-fname:
-                  type: array
-                  items:
-                    required: []
-                    properties: {}
-                user-lname:
-                  type: array
-                  items:
-                    required: []
-                    properties: {}
-                job-title:
-                  type: array
-                  items:
-                    required: []
-                    properties: {}
-              required:
-                - user-fname
-                - user-lname
-                - job-title
-  '/users/{userid}/tasks':
-    parameters:
-      - schema:
-          type: string
-        name: userid
-        in: path
-        required: true
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /users/{userid}:
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: Info for a specific User
+      operationId: showUserById
+      tags:
+        - users
+      parameters:
+        - name: userid
+          in: path
+          required: true
+          description: The id of the User to retrieve
+          schema:
+            type: integer 
+            format: int32
       responses:
         '200':
-          description: OK
-      operationId: get-users-userid-tasks
-      description: Fetch all tasks assigned to a specific user
-  '/tasks/{taskid}/users':
-    parameters:
-      - schema:
-          type: string
-        name: taskid
-        in: path
-        required: true
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tasks:
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: List all tasks
+      operationId: listTasks
+      tags:
+        - tasks
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          schema:
+            type: integer
+            format: int32
       responses:
         '200':
-          description: OK
-      operationId: get-tasks-taskid-users
-      description: Fetch all users assigned to a specific task
-  /assign-tasks:
+          description: A paged array of tasks
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/tasks"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     post:
-      summary: ''
-      operationId: post-assign-tasks
+      summary: Create a Task
+      operationId: createTask
+      tags:
+        - tasks
+      responses:
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tasks/{taskid}:
+    get:
+      summary: Info for a specific task
+      operationId: showTaskById
+      tags:
+        - tasks
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          description: The id of the Task to retrieve
+          schema:
+            type: integer 
+            format: int32
       responses:
         '200':
-          description: OK
-      description: 'Assign users by their id to a task by its id '
-      requestBody:
-        content:
-          application/json:
-            schema:
-              description: ''
-              type: object
-              properties:
-                task-id:
-                  type: array
-                  items:
-                    required: []
-                    properties: {}
-                user-id:
-                  type: array
-                  items:
-                    required: []
-                    properties: {}
-              required:
-                - task-id
-                - user-id
-            examples:
-              example-1:
-                value:
-                  task-id:
-                    - {}
-                  user-id:
-                    - {}
-        description: 'Here is the provided information necessary to assign tasks to users (taskid, userid)'
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/task"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /time-entries:
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: List all time-entries
+      operationId: listTimeEntries
+      tags:
+        - time-entries
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          schema:
+            type: integer
+            format: int32
       responses:
         '200':
-          description: OK
-      operationId: get-time-entries
-      description: 'A queryable endpoint returning time-entries either by userid, taskid, or assignmentid '
+          description: A paged array of time-entries
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/time-entries"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a time-entry
+      operationId: createTimeEntry
+      tags:
+        - time-entries
+      responses:
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /time-entries/{time-entry-id}:
+    get:
+      summary: Info for a specific time-entry
+      operationId: showTimeEntryById
+      tags:
+        - time-entries
+      parameters:
+        - name: time-entry-id
+          in: path
+          required: true
+          description: The id of the time-entry to retrieve
+          schema:
+            type: integer 
+            format: int32
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/time-entry"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /task-assignments:
+    get:
+      summary: List all task-assignments
+      operationId: listTaskAssignments
+      tags:
+        - task-assignments
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: A paged array of time-entries
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/task-assignments"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a task-assignments
+      operationId: createTaskAssignment
+      tags:
+        - task-assignments
+      responses:
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /task-assignments/{task-assignment-id}:
+    get:
+      summary: Info for a specific task-assignment
+      operationId: showTaskAssignmentById
+      tags:
+        - task-assignments
+      parameters:
+        - name: task-assignment-id
+          in: path
+          required: true
+          description: The id of the task-assignment to retrieve
+          schema:
+            type: integer 
+            format: int32
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/task-assignment"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /sum-minutes-responses:
+    get:
+      summary: List all summaries of minutes spent on tasks for all users
+      operationId: listSumMinutesSpentOnTasks
+      tags:
+        - sum-minutes-responses
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: A paged array of sum-minutes-responses
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/sum-minutes-responses"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /sum-minutes-responses/{taskid}:
+    get:
+      summary: Summary Info of time spent by all assigned users for a specific task
+      operationId: showMinutesSpentSummedByUsersForTask
+      tags:
+        - sum-minutes-responses
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          description: The id of the task-assignment to retrieve
+          schema:
+            type: integer 
+            format: int32
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/sum-minutes-response"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
-  schemas: {}
+  schemas:
+    task:
+      type: object
+      required:
+        - task-name
+        - task-extra-info
+      properties:
+        id:
+          type: integer
+          format: int32
+        task-name:
+          type: string
+        task-extra-info:
+          type: string
+    tasks:
+      type: array
+      items:
+        $ref: "#/components/schemas/task"
+    user:
+      type: object
+      required:
+        - user-fname
+        - user-lname
+        - job-title
+      properties:
+        id:
+          type: integer
+          format: int32
+        user-fname:
+          type: string
+        user-lname:
+          type: string
+        job-title:
+          type: string
+    users:
+      type: array
+      items:
+        $ref: "#/components/schemas/user"
+    task-assignment:
+      type: object
+      required:
+        - user-id
+        - task-id
+      properties:
+        id:
+          type: integer
+          format: int32
+        user-id:
+          type: integer
+          format: int32
+        task-id:
+          type: integer
+          format: int32
+    task-assignments:
+      type: array
+      items:
+        $ref: "#/components/schemas/task-assignment"
+    time-entry:
+      type: object
+      required:
+        - task-assignment-id
+        - minutes-spent
+      properties:
+        id:
+          type: integer
+          format: int32
+        task-assignment-id:
+          type: integer
+          format: int32
+        minutes-spent:
+          type: integer
+          format: int32
+    time-entries:
+      type: array
+      items:
+        $ref: "#/components/schemas/time-entry"
+    sum-minutes-response:
+      type: object
+      required:
+        - task-name
+        - user-name
+        - job-title
+        - minutes-spent
+      properties:
+        task-name:
+          type: string
+        user-name:
+          type: string
+        job-title:
+          type: string
+        minutes-spent:
+          type: integer
+          format: int32
+    sum-minutes-responses:
+      type: array
+      items:
+        $ref: "#/components/schemas/sum-minutes-response"
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
